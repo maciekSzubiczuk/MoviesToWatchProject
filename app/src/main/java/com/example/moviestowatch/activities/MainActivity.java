@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.SearchView;
@@ -18,8 +19,11 @@ import com.example.moviestowatch.models.Movie;
 import com.example.moviestowatch.tasks.FetchMoviesTask;
 import com.example.moviestowatch.tasks.SaveMoviesTask;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -50,11 +54,23 @@ protected void onCreate(Bundle savedInstanceState) {
         @Override
         public boolean onQueryTextSubmit(String query) {
             if (!query.isEmpty()) {
-                // Build the API URL with the user's query
-                apiUrl = "https://www.omdbapi.com/?apikey=448310f1&s=" + query;
-                // Make API request
-                FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(apiUrl, new MoviesFetchedListener());
-                fetchMoviesTask.execute();
+                Resources resources = getResources();
+                InputStream inputStream = resources.openRawResource(R.raw.config);
+                Properties properties = new Properties();
+                try {
+                    properties.load(inputStream);
+                    apiUrl = properties.getProperty("apiUrl");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (apiUrl != null) {
+                    // Append the user's query to the apiUrl
+                    apiUrl += query;
+                    // Make API request
+                    FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(apiUrl, new MoviesFetchedListener());
+                    fetchMoviesTask.execute();
+                }
             }
             return false;
         }
