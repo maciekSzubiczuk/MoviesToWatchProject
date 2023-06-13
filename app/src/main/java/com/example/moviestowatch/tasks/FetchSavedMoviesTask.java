@@ -31,7 +31,7 @@ public class FetchSavedMoviesTask extends AsyncTask<Void, Void, List<MovieEntity
     protected void onPostExecute(List<MovieEntity> movieEntities) {
         super.onPostExecute(movieEntities);
 
-        // Convert MovieEntity objects to Movie objects
+        // Convert MovieEntity objects to Movie java objects
         List<Movie> movies = new ArrayList<>();
         for (MovieEntity movieEntity : movieEntities) {
             Movie movie = new Movie(movieEntity.getTitle(), movieEntity.getPosterUrl(), movieEntity.getImdbID(), movieEntity.getYear());

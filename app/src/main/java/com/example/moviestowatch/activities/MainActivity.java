@@ -65,9 +65,7 @@ protected void onCreate(Bundle savedInstanceState) {
                 }
 
                 if (apiUrl != null) {
-                    // Append the user's query to the apiUrl
                     apiUrl += query;
-                    // Make API request
                     FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(apiUrl, new MoviesFetchedListener());
                     fetchMoviesTask.execute();
                 }
@@ -88,7 +86,7 @@ protected void onCreate(Bundle savedInstanceState) {
             if (selectedMovies.isEmpty()) {
                 Toast.makeText(this, "No movies selected.", Toast.LENGTH_SHORT).show();
             } else {
-                // Convert selectedMovies to MovieEntity objects
+                // Convert selectedMovies java objects to MovieEntity objects
                 List<MovieEntity> movieEntities = new ArrayList<>();
                 for (Movie movie : selectedMovies) {
                     MovieEntity movieEntity = new MovieEntity();
@@ -107,8 +105,6 @@ protected void onCreate(Bundle savedInstanceState) {
         Intent intent = new Intent(MainActivity.this, SavedMoviesActivity.class);
         startActivity(intent);
     });
-
-    // Initialize the database instance
     movieDatabase = MovieDatabase.getInstance(this);
 }
 

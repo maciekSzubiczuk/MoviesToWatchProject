@@ -36,11 +36,9 @@ public class SavedMoviesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         deleteButton = findViewById(R.id.deleteButton);
-
-        // Initialize the database instance
         movieDatabase = MovieDatabase.getInstance(this);
 
-        // Fetch the saved movies from the database
+        // Get the saved movies from the database
         new FetchSavedMoviesTask(this, movieDatabase).execute();
 
         deleteButton.setOnClickListener(view -> {
